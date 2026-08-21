@@ -41,7 +41,22 @@
     .note { padding:25px; color:var(--muted); font-size:.8125rem; }
     footer { padding:0 24px 38px; color:#89958f; font-size:.75rem; text-align:center; }
     .empty { display:none; padding:32px; color:var(--muted); text-align:center; }
-    @media (max-width:650px) { .hero { padding:46px 18px 42px; } main { padding:24px 14px 50px; } th,td { padding:13px 15px; } th:first-child,td:first-child { width:55%; } }
+    @media (max-width:650px) {
+      .hero { padding:46px 18px 42px; }
+      main { padding:24px 14px 50px; }
+      th,td { padding:13px 15px; }
+      table, tbody, tr, td { display:block; width:100%; }
+      thead { display:none; }
+      tr { padding:10px 0; border-bottom:1px solid #edf0ed; }
+      tr:last-child { border-bottom:0; }
+      td { border:0; }
+      td:first-child { width:100%; padding-bottom:5px; }
+      td:nth-child(2) { width:100%; padding-top:0; }
+      td:first-child::before, td:nth-child(2)::before { display:block; margin-bottom:2px; color:var(--muted); font-size:.7rem; font-weight:800; letter-spacing:.04em; }
+      td:first-child::before { content:"위원회 명칭"; }
+      td:nth-child(2)::before { content:"설명"; }
+      td:nth-child(2):empty { display:none; }
+    }
   </style>
 </head>
 <body>
