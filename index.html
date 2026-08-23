@@ -207,6 +207,7 @@
     function apply() { const q = search.value.trim().toLowerCase(), a = agency.value; let shown = 0;
       sections.forEach(section => { let rows = [...section.querySelectorAll('tbody tr:not(.group-row)')]; let sectionShown = 0; const agencyMatch = a === 'all' || section.dataset.agency === a;
         rows.forEach(row => { const nameText = row.querySelector('td.name')?.textContent.toLowerCase() || ''; const match = agencyMatch && (!q || nameText.includes(q)); row.style.display = match ? '' : 'none'; if (match) sectionShown++; });
+        section.querySelectorAll('tr.group-row').forEach(group => { let hasMatch = false, next = group.nextElementSibling; while (next && !next.classList.contains('group-row')) { if (next.style.display !== 'none') hasMatch = true; next = next.nextElementSibling; } group.style.display = hasMatch ? '' : 'none'; });
         section.style.display = sectionShown ? '' : 'none'; shown += sectionShown;
       }); document.querySelector('#empty').style.display = shown ? 'none' : 'block'; }
     search.addEventListener('input', apply); agency.addEventListener('change', apply);
