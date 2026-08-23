@@ -40,6 +40,7 @@
     th:nth-child(2), td:nth-child(2) { width:35%; }
     th:nth-child(3), td:nth-child(3) { width:10%; }
     .status { color:var(--muted); font-size:.9rem; }
+    .mobile-status { display:none; }
     .name { font-weight:750; word-break:keep-all; overflow-wrap:break-word; }
     .sub { display:block; margin-top:4px; color:var(--green); font-size:.9rem; font-weight:700; }
     .blank { color:#a1aaa5; font-size:.8125rem; }
@@ -69,10 +70,12 @@
       td:nth-child(3)::before { content:"현황"; }
       .description::before { display:none !important; content:none !important; }
       td:nth-child(2):empty, td:nth-child(3):empty { display:none; }
+      td.status { display:none; }
       .description { display:flex; flex-direction:column; padding-top:0; }
       .desc-toggle { display:inline-flex; align-self:flex-end; align-items:center; justify-content:center; padding:5px 11px; border:1px solid var(--line); border-radius:8px; background:var(--mint); color:var(--green); font:inherit; font-size:.78rem; font-weight:800; cursor:pointer; }
       .description-content { display:none; margin-top:9px; }
       .description.is-open .description-content { display:block; }
+      .description-content .mobile-status { display:block; margin-top:9px; padding-top:9px; border-top:1px solid var(--line); color:var(--muted); font-size:.9rem; }
       .description.is-open .desc-toggle { background:var(--green); color:#fff; }
       .group-row td { padding:10px 15px 8px; }
     }
@@ -145,6 +148,16 @@
       while (cell.firstChild) content.appendChild(cell.firstChild);
       cell.append(button, content);
       button.addEventListener('click', () => { const open = cell.classList.toggle('is-open'); button.textContent = open ? '설명 닫기' : '설명 보기'; button.setAttribute('aria-expanded', String(open)); });
+    });
+    document.querySelectorAll('tr').forEach(row => {
+      const description = row.querySelector('td.description'), status = row.querySelector('td.status');
+      if (!description || !status) return;
+      const content = description.querySelector('.description-content'), statusText = status.innerHTML.trim();
+      if (!content || !statusText) return;
+      const mobileStatus = document.createElement('div');
+      mobileStatus.className = 'mobile-status';
+      mobileStatus.innerHTML = '<strong>현황:</strong> ' + statusText;
+      content.appendChild(mobileStatus);
     });
     function apply() { const q = search.value.trim().toLowerCase(), a = agency.value; let shown = 0;
       sections.forEach(section => { let rows = [...section.querySelectorAll('tbody tr:not(.group-row)')]; let sectionShown = 0; const agencyMatch = a === 'all' || section.dataset.agency === a;
