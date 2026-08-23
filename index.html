@@ -217,7 +217,8 @@
       document.querySelectorAll('th').forEach(cell => { if (cell.textContent.trim() === '설명') cell.remove(); });
       document.querySelectorAll('td.description').forEach(cell => cell.remove());
       document.querySelectorAll('td.status').forEach(cell => cell.remove());
-      document.querySelectorAll('.group-row td').forEach(cell => cell.setAttribute('colspan', '2'));
+      document.querySelectorAll('td.name').forEach(cell => cell.setAttribute('colspan', '3'));
+      document.querySelectorAll('.group-row td').forEach(cell => cell.setAttribute('colspan', '3'));
     }
     function apply() { const q = search.value.trim().toLowerCase(), a = agency.value; let shown = 0;
       sections.forEach(section => { let rows = [...section.querySelectorAll('tbody tr:not(.group-row)')]; let sectionShown = 0; const agencyMatch = a === 'all' || section.dataset.agency === a;
