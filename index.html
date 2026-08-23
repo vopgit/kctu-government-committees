@@ -41,6 +41,7 @@
     .sub { display:block; margin-top:4px; color:var(--green); font-size:.9rem; font-weight:700; }
     .blank { color:#a1aaa5; font-size:.8125rem; }
     .description { color:var(--ink); font-size:.9rem; }
+    .desc-toggle { display:none; }
     .note { padding:25px; color:var(--muted); font-size:.8125rem; }
     footer { padding:0 24px 38px; color:#89958f; font-size:.75rem; text-align:center; }
     .empty { display:none; padding:32px; color:var(--muted); text-align:center; }
@@ -62,7 +63,13 @@
       td:nth-child(2) { width:100%; padding-top:0; }
       td:first-child::before, td:nth-child(2)::before { display:block; margin-bottom:2px; color:var(--muted); font-size:.7rem; font-weight:800; letter-spacing:.04em; }
       td:nth-child(2)::before { content:"설명"; }
+      .description::before { display:none; }
       td:nth-child(2):empty { display:none; }
+      .description { padding-top:0; }
+      .desc-toggle { display:inline-flex; align-items:center; justify-content:center; padding:7px 11px; border:1px solid var(--line); border-radius:8px; background:var(--mint); color:var(--green); font:inherit; font-size:.78rem; font-weight:800; cursor:pointer; }
+      .description-content { display:none; margin-top:9px; }
+      .description.is-open .description-content { display:block; }
+      .description.is-open .desc-toggle { background:var(--green); color:#fff; }
       .group-row td { padding:18px 15px 8px; }
     }
   </style>
@@ -122,6 +129,14 @@
     const search = document.querySelector('#search'), agency = document.querySelector('#agency');
     const sections = [...document.querySelectorAll('.section')], total = [...document.querySelectorAll('tbody tr:not(.group-row)')].length;
     document.querySelector('#total').textContent = total;
+    document.querySelectorAll('td.description').forEach(cell => {
+      const button = document.createElement('button');
+      button.type = 'button'; button.className = 'desc-toggle'; button.textContent = '설명 보기'; button.setAttribute('aria-expanded', 'false');
+      const content = document.createElement('div'); content.className = 'description-content';
+      while (cell.firstChild) content.appendChild(cell.firstChild);
+      cell.append(button, content);
+      button.addEventListener('click', () => { const open = cell.classList.toggle('is-open'); button.textContent = open ? '설명 닫기' : '설명 보기'; button.setAttribute('aria-expanded', String(open)); });
+    });
     function apply() { const q = search.value.trim().toLowerCase(), a = agency.value; let shown = 0;
       sections.forEach(section => { let rows = [...section.querySelectorAll('tbody tr:not(.group-row)')]; let sectionShown = 0; const agencyMatch = a === 'all' || section.dataset.agency === a;
         rows.forEach(row => { const match = agencyMatch && (!q || row.textContent.toLowerCase().includes(q)); row.style.display = match ? '' : 'none'; if (match) sectionShown++; });
