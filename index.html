@@ -63,7 +63,7 @@
       td:nth-child(2) { width:100%; padding-top:0; }
       td:first-child::before, td:nth-child(2)::before { display:block; margin-bottom:2px; color:var(--muted); font-size:.7rem; font-weight:800; letter-spacing:.04em; }
       td:nth-child(2)::before { content:"설명"; }
-      .description::before { display:none; }
+      .description::before { display:none !important; content:none !important; }
       td:nth-child(2):empty { display:none; }
       .description { padding-top:0; }
       .desc-toggle { display:inline-flex; align-items:center; justify-content:center; padding:7px 11px; border:1px solid var(--line); border-radius:8px; background:var(--mint); color:var(--green); font:inherit; font-size:.78rem; font-weight:800; cursor:pointer; }
