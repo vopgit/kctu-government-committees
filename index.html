@@ -201,7 +201,7 @@
       const nameCell = row.querySelector('td.name'), statusCell = row.querySelector('td.status');
       if (!nameCell || !statusCell) return;
       const name = [...nameCell.childNodes].find(node => node.nodeType === Node.TEXT_NODE)?.textContent.trim();
-      if (name && statusData[name]) { statusCell.classList.remove('blank'); statusCell.innerHTML = statusData[name]; }
+      if (name && statusData[name]) { const cleanedStatus = statusData[name].replace(/\d+명(?=\s*(?:참여|추천|위원 참여|씩 참여|\())/g, ''); statusCell.classList.remove('blank'); statusCell.innerHTML = cleanedStatus; }
     });
     document.querySelectorAll('tr').forEach(row => {
       const description = row.querySelector('td.description'), status = row.querySelector('td.status');
